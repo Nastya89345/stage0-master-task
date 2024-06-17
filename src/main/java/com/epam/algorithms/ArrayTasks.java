@@ -12,7 +12,7 @@ public class ArrayTasks {
      */
     public String[] seasonsArray() {
 
-        return new String [] {"Winter", "Spring", "Summer", "Autumn"};
+        return new String[]{"Winter", "Spring", "Summer", "Autumn"};
     }
 
     /**
@@ -24,9 +24,9 @@ public class ArrayTasks {
      * length = 1  -> [1] length = 3  -> [1, 2, 3] length = 5  -> [1, 2, 3, 4, 5]
      */
     public int[] generateNumbers(int length) {
-        int [] array = new int [length];
-        for(int i = 0; i < length; i++){
-            array[i] = i+1;
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = i + 1;
         }
         return array;
     }
@@ -56,8 +56,8 @@ public class ArrayTasks {
      */
     public int findIndexOfNumber(int[] arr, int number) {
         int index = -1;
-        for(int i = 0; i < arr.length; i++){
-            if(arr[i] == number){
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == number) {
                 index = i;
                 break;
             }
@@ -74,7 +74,7 @@ public class ArrayTasks {
      * "pineapple"]
      */
     public String[] reverseArray(String[] arr) {
-        String [] result = new String[arr.length];
+        String[] result = new String[arr.length];
         for (int i = 0; i < arr.length; i++) {
             result[arr.length - i - 1] = arr[i];
         }
@@ -94,10 +94,10 @@ public class ArrayTasks {
         int lastIndex = 0;
         for (int i = 0; i < arr.length; i++) {
             boolean isLast = false;
-            if(arr[i] < 1 && !isLast){
+            if (arr[i] < 1 && !isLast) {
                 isLast = true;
                 for (int j = i + 1; j < arr.length; j++) {
-                    if(arr[j] > 0){
+                    if (arr[j] > 0) {
                         int temp = arr[i];
                         arr[i] = arr[j];
                         arr[j] = temp;
@@ -106,13 +106,13 @@ public class ArrayTasks {
                     }
                 }
             }
-            if(isLast){
+            if (isLast) {
                 lastIndex = i;
                 break;
             }
         }
-        int [] result = new int[lastIndex];
-        for (int i = 0; i < lastIndex; i++){
+        int[] result = new int[lastIndex];
+        for (int i = 0; i < lastIndex; i++) {
             result[i] = arr[i];
         }
         return result;
@@ -128,18 +128,22 @@ public class ArrayTasks {
      * arr = [[3, 1, 2,], [3,2]] -> [[2, 3], [1, 2, 3]] arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
-        sortArr(arr);
-        for(int i = 0; i < arr.length; i ++){
+        arr = sortArr(arr);
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = sortInt(arr[i]);
         }
         return arr;
     }
-    private int[] sortInt (int[] arr){
+
+    private int[] sortInt(int[] arr) {
+        if (arr == null) {
+            return arr;
+        }
         for (int i = 0; i < arr.length - 1; i++) {
             int min = arr[i];
             int index = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if(arr[j] < min){
+                if (arr[j] < min) {
                     min = arr[j];
                     index = j;
                 }
@@ -150,33 +154,45 @@ public class ArrayTasks {
         }
         return arr;
     }
-    private int[][] sortArr(int [][] arr){
-        for (int i = 0; i < arr.length - 1; i++) {
-            int min = arr[i].length;
-            int index = i;
-            for (int j = i + 1; j < arr.length; j++) {
-                if(arr[j].length < min){
-                    min = arr[j].length;
+
+    private int[][] sortArr(int[][] arr) {
+        int[][] copy = new int[arr.length][];
+        for (int i = 0; i < copy.length; i++) {
+            copy[i] = arr[i];
+        }
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int max = 0;
+            int index = 0;
+            for (int j = copy.length - 1; j >= 0; j--) {
+                if (copy[j] == null) {
+                    continue;
+                }
+                if (copy[j].length > max) {
+                    max = copy[j].length;
                     index = j;
                 }
             }
-            int [] temp = arr[i];
-            arr[i] = arr[index];
-            arr[index] = temp;
+            arr[i] = copy[index];
+            copy[index] = null;
         }
         return arr;
     }
 
     public static void main(String[] args) {
-        int [][] arr = {{-3, -1, -2,}, {-3,-2}};
-        arr = new ArrayTasks().sortRaggedArray(arr);
-        for (int[] ints : arr) {
-            for (int i: ints) {
+        int[][] arr = {{3, 9, 5}, {2, 1}};
+        printArray(arr);
+        ArrayTasks arrayTasks = new ArrayTasks();
+        int[][] result = arrayTasks.sortRaggedArray(arr);
+        printArray(result);
+    }
+
+    private static void printArray(int[][] array) {
+        for (int[] arr : array) {
+            for (int i : arr) {
                 System.out.print(i);
             }
             System.out.println();
         }
-
     }
 
 }
